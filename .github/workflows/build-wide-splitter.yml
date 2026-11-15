@@ -1,0 +1,85 @@
+# Builds NTM-Continuum v1.0.5 with the wide conveyor splitter files (wide-splitter-files.zip, kept in this
+# repository's root) laid over it, and publishes the 1.20.1 Forge jars as a downloadable artifact.
+# Run by hand: Actions tab -> "Build wide splitter" -> Run workflow.
+name: Build wide splitter
+
+on:
+  workflow_dispatch:
+    inputs:
+      golem_ref:
+        description: Golem Core tag or branch to build against (falls back to main if the tag does not exist)
+        default: v1.0.5
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      # This fork only holds the zip with the changed files and this workflow.
+      - uses: actions/checkout@v4
+        with:
+          path: overlay
+
+      # The unmodified upstream sources, laid out side by side with Golem Core as the project expects.
+      - uses: actions/checkout@v4
+        with:
+          repository: Warfactory-Official/NTM-Continuum
+          ref: v1.0.5
+          path: NTM-Continuum
+
+      - name: Clone Golem Core
+        run: |
+          git clone https://github.com/Warfactory-Official/Golem-Core.git Golem-Core
+          cd Golem-Core
+          if git rev-parse -q --verify "refs/tags/${{ inputs.golem_ref }}" >/dev/null; then
+            git checkout "${{ inputs.golem_ref }}"
+          elif git rev-parse -q --verify "origin/${{ inputs.golem_ref }}" >/dev/null; then
+            git checkout "${{ inputs.golem_ref }}"
+          else
+            echo "No ref '${{ inputs.golem_ref }}' in Golem Core, staying on main"
+          fi
+          git log --oneline -1
+
+      - name: Add the wide splitter files
+        run: |
+          unzip -o overlay/wide-splitter-files.zip -d NTM-Continuum
+          test -f NTM-Continuum/src/main/java/com/hbm/blocks/network/CraneSplitterWide.java
+          git -C NTM-Continuum status --short
+
+      # 1.20.1 -> 17, 1.21.1 -> 21, 26.1 -> 25 (the recipe tables are generated on the 26.1 node and every
+      # version needs them). The last one listed runs Gradle itself.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: |
+            17
+            21
+            25
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build Golem Core
+        env:
+          CI: "false"
+        working-directory: Golem-Core
+        run: bash ./gradlew chiseledBuild --no-daemon --stacktrace
+
+      - name: Build NTM Continuum
+        env:
+          CI: "false"
+        working-directory: NTM-Continuum
+        run: bash ./gradlew chiseledBuild --no-daemon --stacktrace
+
+      - name: Collect 1.20.1 Forge jars
+        run: |
+          mkdir -p dist
+          for repo in NTM-Continuum Golem-Core; do
+            find $repo/versions/1.20.1-forge/build/libs -maxdepth 1 -name '*.jar' ! -name '*-sources.jar' -exec cp {} dist/ \;
+          done
+          ls -l dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ntm-continuum-1.20.1-forge-wide-splitter
+          path: dist/*.jar
+          if-no-files-found: error
