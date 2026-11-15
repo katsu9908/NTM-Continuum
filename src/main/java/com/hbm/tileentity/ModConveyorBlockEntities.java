@@ -15,6 +15,7 @@ import com.hbm.tileentity.network.TileEntityCraneInserter;
 import com.hbm.tileentity.network.TileEntityCranePartitioner;
 import com.hbm.tileentity.network.TileEntityCraneRouter;
 import com.hbm.tileentity.network.TileEntityCraneSplitter;
+import com.hbm.tileentity.network.TileEntityCraneSplitterWide;
 import com.hbm.tileentity.network.TileEntityCraneUnboxer;
 import com.hbm.tileentity.network.TileEntityPistonInserter;
 
@@ -48,6 +49,10 @@ public final class ModConveyorBlockEntities {
     public static final RegistryObject<BlockEntityType<TileEntityCraneSplitter>> CRANE_SPLITTER =
             REG.blockEntity("crane_splitter", () -> BlockEntities.serverTicking(
                     TileEntityCraneSplitter::new, (level, pos, state, be) -> be.serverTick(), ModConveyorBlocks.CRANE_SPLITTER.get()));
+    public static final RegistryObject<BlockEntityType<TileEntityCraneSplitterWide>> CRANE_SPLITTER_WIDE =
+            REG.blockEntity("crane_splitter_wide", () -> BlockEntities.type(
+                    TileEntityCraneSplitterWide::new, ModConveyorBlocks.CRANE_SPLITTER_WIDE.get(),
+                    ModConveyorBlocks.CRANE_SPLITTER_WIDE_EXPRESS.get()));
     public static final RegistryObject<BlockEntityType<TileEntityCranePartitioner>> CRANE_PARTITIONER =
             REG.blockEntity("crane_partitioner", () -> BlockEntities.serverTicking(
                     TileEntityCranePartitioner::new, (level, pos, state, be) -> be.serverTick(), ModConveyorBlocks.CRANE_PARTITIONER.get()));

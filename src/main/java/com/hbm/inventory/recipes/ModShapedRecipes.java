@@ -543,6 +543,10 @@ public final class ModShapedRecipes {
                 "P", ItemIds.part_generic_piston_pneumatic, "I", ItemIds.plate_polymer, "C", ItemIds.circuit_basic);
         shaped(NS, "crane_splitter", ItemIds.crane_splitter, rows("III", "PCP", "III"),
                 "P", ItemIds.part_generic_piston_pneumatic, "I", TagIds.ingots_steel, "C", ItemIds.circuit_vacuum_tube);
+        shaped(NS, "crane_splitter_wide", "hbm:crane_splitter_wide", rows("III", "SCS", "III"),
+                "S", ItemIds.crane_splitter, "I", TagIds.ingots_steel, "C", ItemIds.circuit_vacuum_tube);
+        shaped(NS, "crane_splitter_wide_express", "hbm:crane_splitter_wide_express", rows(" E ", "EWE", " E "),
+                "E", ItemIds.conveyor_wand_express, "W", "hbm:crane_splitter_wide");
         shaped(NS, "crane_unboxer", ItemIds.crane_unboxer, rows("WWW", "WPW", "CCC"),
                 "W", VanillaIds.stick, "P", VanillaIds.shears, "C", ItemIds.conveyor_wand_regular);
         shaped(NS, "crate_iron", ItemIds.crate_iron, rows("PPP", "I I", "III"),

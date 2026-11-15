@@ -40,6 +40,7 @@ import com.hbm.blocks.network.CraneInserter;
 import com.hbm.blocks.network.CranePartitioner;
 import com.hbm.blocks.network.CraneRouter;
 import com.hbm.blocks.network.CraneSplitter;
+import com.hbm.blocks.network.CraneSplitterWide;
 import com.hbm.blocks.network.CraneUnboxer;
 
 /**
@@ -121,6 +122,10 @@ public final class ModConveyorBlocks {
     public static final RegistryObject<CraneSplitter> CRANE_SPLITTER = REG.block("crane_splitter", CraneSplitter::new, CRANE_OPEN)
             .transform(Presets.rendered(Variants.product(Variants.uniform("facing", "north", "east", "south", "west"),
                     Variants.uniform("cell", "false", "true"))).and(SELF_PICKAXE));
+    public static final RegistryObject<CraneSplitterWide> CRANE_SPLITTER_WIDE = REG.block("crane_splitter_wide", CraneSplitterWide::new, CRANE_OPEN)
+            .transform(Presets.statesOnly(Variants.uniform("facing", "north", "east", "south", "west")).and(SELF_PICKAXE));
+    public static final RegistryObject<CraneSplitterWide.Express> CRANE_SPLITTER_WIDE_EXPRESS = REG.block("crane_splitter_wide_express", CraneSplitterWide.Express::new, CRANE_OPEN)
+            .transform(Presets.statesOnly(Variants.uniform("facing", "north", "east", "south", "west")).and(SELF_PICKAXE));
     public static final RegistryObject<CranePartitioner> CRANE_PARTITIONER = REG.block("crane_partitioner", CranePartitioner::new, CRANE_OPEN)
             .transform(Presets.rendered(Variants.uniform("facing", "north", "east", "south", "west")).and(SELF_PICKAXE));
     public static final RegistryObject<PistonInserter> PISTON_INSERTER = REG.block("piston_inserter", PistonInserter::new, CRANE_OPEN)
@@ -148,6 +153,12 @@ public final class ModConveyorBlocks {
     public static final RegistryObject<BlockItem> CRANE_UNBOXER_ITEM = item("crane_unboxer", CRANE_UNBOXER)
             .tab(HbmTab.MACHINES);
     public static final RegistryObject<BlockItem> CRANE_SPLITTER_ITEM = item("crane_splitter", CRANE_SPLITTER)
+            .tab(HbmTab.MACHINES);
+    public static final RegistryObject<BlockItem> CRANE_SPLITTER_WIDE_ITEM = item("crane_splitter_wide", CRANE_SPLITTER_WIDE)
+            .transform(Presets.shares("hbm:block/crane_splitter_wide"))
+            .tab(HbmTab.MACHINES);
+    public static final RegistryObject<BlockItem> CRANE_SPLITTER_WIDE_EXPRESS_ITEM = item("crane_splitter_wide_express", CRANE_SPLITTER_WIDE_EXPRESS)
+            .transform(Presets.shares("hbm:block/crane_splitter_wide_express"))
             .tab(HbmTab.MACHINES);
     public static final RegistryObject<BlockItem> CRANE_PARTITIONER_ITEM = item("crane_partitioner", CRANE_PARTITIONER)
             .tab(HbmTab.MACHINES);

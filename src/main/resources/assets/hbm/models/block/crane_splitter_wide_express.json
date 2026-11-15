@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "hbm:blocks/crane_splitter_belt",
+    "side": "hbm:blocks/crane_splitter_inner",
+    "bottom": "hbm:blocks/crane_in",
+    "particle": "hbm:blocks/crane_splitter_inner"
+  }
+}

@@ -277,3 +277,5 @@ assets/hbm/models/item/machine_obj_legacy.json
 assets/hbm/models/item/machine_weapon_table.json
 assets/hbm/models/item/pneumatic_tube.json
 # Machine recipe tables are not here: they are generated from src/recipes at build time (gradle/recipe-tables.gradle.kts).
+assets/hbm/models/block/crane_splitter_wide.json
+assets/hbm/models/block/crane_splitter_wide_express.json
